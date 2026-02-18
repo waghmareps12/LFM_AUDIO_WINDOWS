@@ -19,7 +19,7 @@ from pathlib import Path
 import httpx
 import keyboard
 import numpy as np
-import pyaudio
+import sounddevice as sd
 import pyperclip
 import soundfile as sf
 from openai import OpenAI
@@ -118,9 +118,8 @@ class AudioRecorder:
     def __init__(self, sample_rate: int):
         self.sample_rate = sample_rate
         self.recording = False
-        self._frames: list[bytes] = []
+        self._frames: list[np.ndarray] = []
         self._stream = None
-        self._pa = None
         self._lock = threading.Lock()
 
     def start(self):
@@ -129,40 +128,34 @@ class AudioRecorder:
                 return
             self._frames = []
             self.recording = True
-        self._pa = pyaudio.PyAudio()
-        self._stream = self._pa.open(
-            format=pyaudio.paFloat32,
+        self._stream = sd.InputStream(
+            samplerate=self.sample_rate,
             channels=1,
-            rate=self.sample_rate,
-            input=True,
-            frames_per_buffer=1024,
-            stream_callback=self._cb,
+            dtype='float32',
+            callback=self._cb,
+            blocksize=1024,
         )
-        self._stream.start_stream()
+        self._stream.start()
 
-    def _cb(self, in_data, *_):
+    def _cb(self, indata, frames, time, status):
         with self._lock:
             if self.recording:
-                self._frames.append(in_data)
-        return (None, pyaudio.paContinue)
+                self._frames.append(indata.copy())
 
     def stop(self) -> bytes | None:
         """Stop and return WAV bytes, or None if recording was too short."""
         with self._lock:
             self.recording = False
         if self._stream:
-            self._stream.stop_stream()
+            self._stream.stop()
             self._stream.close()
             self._stream = None
-        if self._pa:
-            self._pa.terminate()
-            self._pa = None
         with self._lock:
             frames, self._frames = self._frames, []
 
         if not frames:
             return None
-        audio = np.frombuffer(b"".join(frames), dtype=np.float32)
+        audio = np.concatenate(frames)
         if len(audio) / self.sample_rate < 0.3:
             return None
         buf = io.BytesIO()

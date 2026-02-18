@@ -5,7 +5,7 @@ import io
 import time
 
 import numpy as np
-import pyaudio
+import sounddevice as sd
 import soundfile as sf
 from openai import OpenAI
 
@@ -16,23 +16,10 @@ RECORD_SECONDS = 4
 
 def record_audio(seconds=RECORD_SECONDS):
     print(f"Recording {seconds}s of audio... Speak now!")
-    pa = pyaudio.PyAudio()
-    stream = pa.open(
-        format=pyaudio.paFloat32,
-        channels=1,
-        rate=SAMPLE_RATE,
-        input=True,
-        frames_per_buffer=1024,
-    )
-    frames = []
-    for _ in range(0, int(SAMPLE_RATE / 1024 * seconds)):
-        data = stream.read(1024, exception_on_overflow=False)
-        frames.append(data)
-    stream.stop_stream()
-    stream.close()
-    pa.terminate()
-
-    audio = np.frombuffer(b"".join(frames), dtype=np.float32)
+    frames = int(SAMPLE_RATE * seconds)
+    recording = sd.rec(frames, samplerate=SAMPLE_RATE, channels=1, dtype='float32')
+    sd.wait()
+    audio = recording.flatten()
     buf = io.BytesIO()
     sf.write(buf, audio, SAMPLE_RATE, format="WAV")
     buf.seek(0)
