@@ -1,0 +1,29 @@
+# Model files — download via setup instructions in README
+models/
+
+# Build artifacts
+llama.cpp/build/
+llama.cpp/.cache/
+*.exe
+*.lib
+*.obj
+*.pdb
+
+# Server runtime
+server.log
+config.ini
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# HuggingFace cache
+.cache/
+
+# OS
+.DS_Store
+Thumbs.db
+nul
