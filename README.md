@@ -37,7 +37,7 @@ Press a hotkey → speak → text appears in whatever input field is focused. No
 ### 1 — Clone this repo
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/lfm-speech-to-type.git
+git clone https://github.com/waghmareps12/lfm-speech-to-type.git
 cd lfm-speech-to-type
 ```
 
@@ -142,7 +142,39 @@ python lfm_speech_to_type.py
 
 Or double-click **`start.bat`**.
 
-The server takes **30–60 seconds** to load on first launch. A tray icon appears in the system tray when ready.
+The app **automatically starts the llama-liquid-audio-server** in the background.
+The server takes **30–60 seconds** to load on first launch. A tray icon appears when ready.
+
+---
+
+## Starting the server manually
+
+If you prefer to keep the server running independently (e.g. to avoid the 60s wait on every launch):
+
+**Step 1 — Start the server in one terminal:**
+
+```bat
+llama.cpp\build\bin\Release\llama-liquid-audio-server.exe ^
+  -m  models\LFM2.5-Audio-1.5B-Q4_0.gguf ^
+  -mm models\mmproj-LFM2.5-Audio-1.5B-Q4_0.gguf ^
+  -mv models\vocoder-LFM2.5-Audio-1.5B-Q4_0.gguf ^
+  --tts-speaker-file models\tokenizer-LFM2.5-Audio-1.5B-Q4_0.gguf ^
+  -t 4 --host 127.0.0.1 --port 8142
+```
+
+Wait until you see:
+```
+Model loaded successfully!
+Server ready at http://127.0.0.1:8142
+```
+
+**Step 2 — Launch the app (skip auto-server) in another terminal:**
+
+```bash
+python lfm_speech_to_type.py --no-server
+```
+
+> **Tip:** Save the server command as a `server.bat` file so you can double-click it to start.
 
 ---
 
@@ -187,27 +219,6 @@ options:
   --host      Audio server host (default: 127.0.0.1)
   --threads   CPU threads for inference (default: 4)
   --no-server Skip launching the server (assume it is already running)
-```
-
----
-
-## Running the server manually
-
-If you want to run the inference server separately (e.g. to keep it warm between app restarts):
-
-```bash
-llama.cpp\build\bin\Release\llama-liquid-audio-server.exe ^
-  -m  models\LFM2.5-Audio-1.5B-Q4_0.gguf ^
-  -mm models\mmproj-LFM2.5-Audio-1.5B-Q4_0.gguf ^
-  -mv models\vocoder-LFM2.5-Audio-1.5B-Q4_0.gguf ^
-  --tts-speaker-file models\tokenizer-LFM2.5-Audio-1.5B-Q4_0.gguf ^
-  -t 4 --host 127.0.0.1 --port 8142
-```
-
-Then launch the app with `--no-server`:
-
-```bash
-python lfm_speech_to_type.py --no-server
 ```
 
 ---
