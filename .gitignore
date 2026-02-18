@@ -23,6 +23,11 @@ venv/
 # HuggingFace cache
 .cache/
 
+# Local project dirs — not for repo
+cookbook/
+llama.cpp/
+.claude/
+
 # OS
 .DS_Store
 Thumbs.db
