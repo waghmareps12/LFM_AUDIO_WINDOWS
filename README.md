@@ -8,6 +8,8 @@ Press a hotkey → speak → text appears in whatever input field is focused. No
 
 ## Demo
 
+<video src="demo.mp4" controls width="100%"></video>
+
 | State | Tray icon |
 |-------|-----------|
 | Idle / ready | 🟢 Green mic |
