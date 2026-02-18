@@ -37,8 +37,8 @@ Press a hotkey → speak → text appears in whatever input field is focused. No
 ### 1 — Clone this repo
 
 ```bash
-git clone https://github.com/waghmareps12/lfm-speech-to-type.git
-cd lfm-speech-to-type
+git clone https://github.com/waghmareps12/LFM_AUDIO_WINDOWS.git
+cd LFM_AUDIO_WINDOWS
 ```
 
 ### 2 — Install Python dependencies
