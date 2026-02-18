@@ -37,7 +37,7 @@ Press a hotkey → speak → text appears in whatever input field is focused. No
 ### 1 — Clone this repo
 
 ```bash
-git clone https://github.com/waghmareps12/lfm-speech-to-type.git
+git clone https://github.com/waghmareps12/LFM_AUDIO_WINDOWS.git
 cd lfm-speech-to-type
 ```
 
