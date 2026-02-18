@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl:*)",
+      "Bash(python3:*)",
+      "Bash(gh api:*)",
+      "Bash(git clone:*)",
+      "Bash(pip install:*)",
+      "Bash(python -c:*)",
+      "Bash(git fetch:*)",
+      "Bash(git checkout:*)",
+      "Bash(ls:*)",
+      "Bash(cmake:*)",
+      "Bash(cmd.exe /c:*)",
+      "Bash(pip show:*)",
+      "Bash(export PATH=\"$PATH:/c/Users/waghm/AppData/Roaming/Python/Python313/Scripts\")",
+      "Bash(cmake.exe --version:*)",
+      "Bash(cmake.exe:*)",
+      "Bash(\"D:/COURSES/RANDOM_PROJECTS/LFM_AUDIO_WINDOWS/llama.cpp/build/bin/Release/llama-liquid-audio-server.exe\":*)",
+      "Bash(python:*)",
+      "Bash(dir:*)",
+      "Bash(attrib:*)",
+      "Bash(del:*)",
+      "Bash(git init:*)",
+      "Bash(git add:*)",
+      "Bash(git config:*)",
+      "Bash(git commit:*)",
+      "Bash(gh repo create:*)",
+      "Bash(where gh:*)"
+    ]
+  }
+}
